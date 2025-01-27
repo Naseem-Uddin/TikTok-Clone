@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tok Be Tik'in</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <main>
+        <h1>For You</h1>
+        <div class="video-container">
+            {% for video in videos %}
+            <video class="video" controls>
+                <source src="{{ url_for('static', filename=video) }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            {% endfor %}
+        </div>
+    </main>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox hidden">
+        <div class="lightbox-content">
+            <video id="lightbox-video" controls>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <button id="close-lightbox">×</button>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
