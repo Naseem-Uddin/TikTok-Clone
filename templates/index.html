@@ -8,27 +8,45 @@
 </head>
 <body>
     <main>
-        <h1>For You</h1>
+        <!-- Login/Register UI -->
+        <div class="auth-container">
+            {% if not logged_in %}
+                <button id="login-btn">Login</button>
+                <button id="register-btn">Register</button>
+            {% else %}
+                <span class="username">{{ username }}</span>
+                <button id="logout-btn">Logout</button>
+            {% endif %}
+        </div>
+
         <div class="video-container">
             {% for video in videos %}
-            <video class="video" controls>
-                <source src="{{ url_for('static', filename=video) }}" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <div class="video-wrapper" data-video-id="{{ video.id }}">
+                <video class="video" playsinline loop>
+                    <source src="{{ url_for('static', filename='videos/' + video.filename) }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="action-container">
+                    <button class="like-btn" data-video-id="{{ video.id }}">
+                        <img src="{{ url_for('static', filename='icons/like.webp') }}" alt="Like">
+                    </button>
+                    <p class="like-count" id="likes-count-{{ video.id }}">{{ video.likes }}</p>
+
+                    <button class="comment-btn" data-video-id="{{ video.id }}">
+                        <img src="{{ url_for('static', filename='icons/comment.webp') }}" alt="Comment">
+                    </button>
+                </div>
+            </div>
             {% endfor %}
         </div>
-    </main>
 
-    <!-- Lightbox Modal -->
-    <div id="lightbox" class="lightbox hidden">
-        <div class="lightbox-content">
-            <video id="lightbox-video" controls>
-                <source src="" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <button id="close-lightbox">×</button>
-        </div>
-    </div>
+        <!-- Comment box -->
+        <div class="comment-box">
+            <textarea maxlength="100" placeholder="Write your comment..."></textarea>
+            <button class="post-btn">Post</button>
+            <button class="cancel-btn">Cancel</button>
+        </div>    
+    </main>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
